@@ -34,7 +34,13 @@ function App() {
         const updatedPlan = action.payload;
         const updatedPlans = data.map(p => p.date.getDate() === updatedPlan.date.getDate() ?  updatedPlan : p );
 
-        return {data : updatedPlans}
+        return {data : updatedPlans};
+
+      case 'DELETE' :
+        console.log('delete reducer called');
+        const deletedPlans = data.filter(p => p.date.getDate() !== action.payload.date.getDate());
+
+        return {data : deletedPlans};
     } 
   }
 

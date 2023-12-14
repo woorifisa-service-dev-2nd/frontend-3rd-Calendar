@@ -28,6 +28,11 @@ const Modal = ({date, onClose, onButton, plan}) => {
         onClose();
     }
 
+    const closeHandler = () => {
+        onButton({type : "DELETE", payload : plan});
+        onClose();
+    }
+
 
 
   return (
@@ -46,6 +51,9 @@ const Modal = ({date, onClose, onButton, plan}) => {
              <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' placeholder='분류를 입력하세요' defaultValue={plan?.tag} id='tag' onChange={e=> setTag(e.target.value)}/>
 
             <TimeForm onChange={setTime} selectedTime={plan?.time}/>
+
+            {plan !== undefined ? <button className='text-xl text-orange-600 bg-[#DFE0DF]' type='button'
+            onClick={closeHandler}>삭제</button> : ''}
 
              <button className='text-xl text-orange-600 bg-[#DFE0DF]' type='button' onClick={onClose}>취소</button>
              <button className='text-xl text-lime-600 bg-[#DFE0DF]' type='button'

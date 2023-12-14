@@ -3,12 +3,13 @@ import TimeForm from './TimeForm';
 import {useState} from 'react';
 
 
-const Modal = ({date, onClose, onButton}) => {
+const Modal = ({date, onClose, onButton, plan}) => {
 
-    const [title, setTitle] = useState();
-    const [content, setContent] = useState();
-    const [tag, setTag] = useState();
+    const [title, setTitle] = useState(plan !== undefined ? plan.title : '');
+    const [content, setContent] = useState(plan !== undefined ? plan.content : '');
+    const [tag, setTag] = useState(plan !== undefined ? plan.tag : '');
     const [time, setTime] = useState();
+
 
     const getDate = () => {
         const y = date.getFullYear();
@@ -18,7 +19,12 @@ const Modal = ({date, onClose, onButton}) => {
     }
 
     const clickHandler = () => {
-        onButton({type:"ADD", payload :{title , content, tag, date, time }});
+
+        if (plan === undefined)
+            onButton({type:"ADD", payload :{title , content, tag, date, time }});
+        else 
+            onButton({type:"UPDATE", payload :{title , content, tag, date, time }});
+
         onClose();
     }
 
@@ -31,15 +37,15 @@ const Modal = ({date, onClose, onButton}) => {
             <div className='block mb-2 text-2xl text-center text-[#FEFEDF]'>{getDate()}의 일정</div>
             <div>
             <label className='block mb-2 text-xl text-[#FEFEDF]' htmlFor='title'>제목</label>
-             <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' type='text' id='title'  onChange={e=> setTitle(e.target.value)}/>
+             <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' placeholder='제목를 입력하세요' defaultValue={plan?.title} id='title'onChange={e=> setTitle(e.target.value)}/>
 
              <label className='block mb-2 text-xl text-[#FEFEDF]' htmlFor='content'>내용</label>
-             <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' type='text' id='content' onChange={e=> setContent(e.target.value)}/>
+             <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' placeholder='내용을 입력하세요' defaultValue={plan?.content} id='content'  onChange={e=> setContent(e.target.value)}/>
 
              <label className='block mb-2 text-xl text-[#FEFEDF]' htmlFor='tag'>분류</label>
-             <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' type='text' id='tag' onChange={e=> setTag(e.target.value)}/>
+             <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' placeholder='분류를 입력하세요' defaultValue={plan?.tag} id='tag' onChange={e=> setTag(e.target.value)}/>
 
-            <TimeForm onChange={setTime}/>
+            <TimeForm onChange={setTime} selectedTime={plan?.time}/>
 
              <button className='text-xl text-orange-600 bg-[#DFE0DF]' type='button' onClick={onClose}>취소</button>
              <button className='text-xl text-lime-600 bg-[#DFE0DF]' type='button'

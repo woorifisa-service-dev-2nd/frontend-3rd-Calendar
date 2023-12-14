@@ -1,9 +1,10 @@
 import React from 'react'
 
-const SelectTime = ({setTime}) => {
+const SelectTime = ({setTime, time}) => {
+
   return (
     <div>
-        <select onChange={(e)=> setTime(e.target.value)}>
+        <select key={time} onChange={(e)=> setTime(e.target.value)} value={time}>
             <option value='01'>01</option>
             <option value='02'>02</option>
             <option value='03'>03</option>

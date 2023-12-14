@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { useState, useEffect, useReducer } from 'react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // css import
@@ -5,6 +6,7 @@ import './App.css'
 import Modal from './components/Modal'
 import { createPortal } from 'react-dom';
 import moment from 'moment'
+import Middleware from './components/Middleware';
 
 function App() {
   const [value, onChange] = useState();
@@ -16,7 +18,6 @@ function App() {
     //리듀서 작성
     switch (action.type) {
       case 'ADD' :
-        // eslint-disable-next-line no-case-declarations
         const newPlan = {
           id : self.crypto.randomUUID(),
           title : action.payload.title,
@@ -30,6 +31,10 @@ function App() {
 
       case 'UPDATE' :
         console.log('update reducer called');
+        const updatedPlan = action.payload;
+        const updatedPlans = data.map(p => p.date.getDate() === updatedPlan.date.getDate() ?  updatedPlan : p );
+
+        return {data : updatedPlans}
     } 
   }
 
@@ -65,7 +70,7 @@ function App() {
           }
       }}/>
         {clicked && createPortal(      
-          <Modal date={value} onClose={onClose} onButton={dispatch} className='z-20'></Modal>, document.body)}
+          <Middleware date={value} onClose={onClose} onButton={dispatch} className='z-20' plans={planList}></Middleware>, document.body)}
     </>
   )
 }

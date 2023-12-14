@@ -13,7 +13,7 @@ function App() {
 			<Calendar
 				onChange={onChange}
 				value={value}
-				// formatDay={(locale, date) => moment(date).format("DD")}
+				formatDay={(locale, date) => moment(date).format("DD")}
 				navigationLabel={null}
 				className="mx-auto w-96 text-sm border-b"
 			/>

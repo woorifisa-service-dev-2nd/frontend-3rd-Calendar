@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import SetTime from './SetTime';
+import { DispatchContext } from '../App.jsx'
 
-const ModalForm = ({ onAdd, onClose, onUpdate, onRemove, value, date, children }) => {
+const ModalForm = ({ onClose, value, date, children }) => {
 	const isNewForm = (child) => {
 		return child.startsWith('NEW') ? true : false;
 	};
@@ -22,21 +23,32 @@ const ModalForm = ({ onAdd, onClose, onUpdate, onRemove, value, date, children }
 		}
 	)
 
-	// const addOrUpdateSchedule = () => {
-	// 	if () onAdd(nowValue);
-	// 	else onUpdate(nowValue);
-	// 	onClose();
-	// }
+	const dispatch = useContext(DispatchContext);
 
-	const addSchedule = () => {
-		onAdd(nowValue);
-		onClose();
+	const addOrUpdateHandler = () => {
+		if (isNewForm(children)) {
+			dispatch({
+				type: 'ADD',
+				newSchedule: nowValue
+			});
+			onClose();
+		}
+
+		else {
+			dispatch({
+				type: 'UPDATE',
+				updateSchedule: nowValue
+			});
+			onClose();
+		}
 	}
-
 	const removeSchedule = () => {
-		onRemove(nowValue);
+		dispatch({
+			type: 'DELETE',
+			deleteSchedule: nowValue.id
+		});
 		onClose();
-	}
+	};
 
 	return (
 		<>
@@ -58,12 +70,14 @@ const ModalForm = ({ onAdd, onClose, onUpdate, onRemove, value, date, children }
 					</div>
 					<div>
 						<button type='button' onClick={() => onClose()}>취소</button>
-						<button type='button' onClick={addSchedule}>확인</button>
+						<button type='button' onClick={addOrUpdateHandler}>확인</button>
 					</div>
 				</div>
 			</form>
 		</>
 	)
 }
+
+
 
 export default ModalForm

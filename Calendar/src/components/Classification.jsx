@@ -3,8 +3,10 @@ import React, { useState } from 'react'
 const Classification = () => {
 	return (
 		<div>
-			{/* {classifyButton.map(btn => <button type='button'>{btn}</button>)} */}
-			
+			<button>#운동</button>
+			<button>#공부</button>
+			<button>#약속</button>
+			<button>#기타</button>
 		</div>
 	)
 }

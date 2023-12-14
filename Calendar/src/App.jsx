@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext, useReducer } from 'react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // css import
 import './App.css'
@@ -48,10 +48,25 @@ let dummyData = [
 	}
 ];
 
+export const CalendarContext = createContext();
+export const DispatchContext = createContext();
+
+const reducer = (schedule, action) => {
+	switch (action.type) {
+		case 'ADD':
+			return [...schedule, action];
+		case 'UPDATE':
+			return schedule.filter(schedule => schedule.id === action.id ? { ...action } : schedule);
+		case 'DELETE':
+			return schedule.filter(schedule => schedule.id !== action);
+	}
+}
+
 function App() {
-	const [schedule, setSchedule] = useState(dummyData);
 	const [value, onChange] = useState(new Date());
 	const [clicked, click] = useState(false);
+
+	const [schedule, dispatch] = useReducer(reducer, dummyData);
 
 	useEffect(() => {
 		if (value !== undefined) {
@@ -69,33 +84,21 @@ function App() {
 		click(false);
 	}
 
-	const onAddHandler = (inputValue) => {
-		setSchedule([...schedule, { inputValue }])
-	}
-
-	const removeScheduleHandler = (inputValue) => {
-		setSchedule(schedule.filter(schedule => schedule.id !== inputValue.id));
-	}
-
-	const updateScehduleHandler = (inputValue) => {
-		setSchedule(schedule.filter(schedule => schedule.id === inputValue.id ? { ...inputValue } : schedule));
-	}
-
 	return (
-		<>
-			<Calendar
-				onChange={onChange}
-				value={value}
-				formatDay={(locale, date) => moment(date).format("DD")}
-				navigationLabel={null}
-			/>
-			{clicked && createPortal(
-				<Modal onAdd={onAddHandler} onClose={onClose} onUpdate={updateScehduleHandler} onRemove={removeScheduleHandler} date={getDate}></Modal>, document.body
-			)
-			}
-		</>
-	)
-
+		<CalendarContext.Provider value={schedule}>
+			<DispatchContext.Provider value={dispatch}>
+				<Calendar
+					onChange={onChange}
+					value={value}
+					formatDay={(locale, date) => moment(date).format("DD")}
+					navigationLabel={null}
+				/>
+				{clicked && createPortal(
+					<Modal onClose={onClose} date={getDate}></Modal>, document.body
+				)}
+			</DispatchContext.Provider>
+		</CalendarContext.Provider>
+	);
 }
 
 export default App

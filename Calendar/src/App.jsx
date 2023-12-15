@@ -11,7 +11,11 @@ import Middleware from './components/Middleware';
 function App() {
   const [value, onChange] = useState();
   const [clicked, click] = useState(false);
+  
 
+  const tagList = ['시험', '약속', '취미'];
+  const [tags, setTags] = useState(tagList);
+  
 
   const onButton = (planList, action) => {
     const {data} = planList;
@@ -19,8 +23,6 @@ function App() {
     switch (action.type) {
       case 'ADD' :
         const newPlan = {
-          id : self.crypto.randomUUID(),
-          title : action.payload.title,
           content : action.payload.content,
           tag : action.payload.tag,
           date : action.payload.date,
@@ -43,6 +45,13 @@ function App() {
         return {data : deletedPlans};
     } 
   }
+
+  const addTagHandler = (newTag) => {
+    console.log('addTaghandler called');
+    const newTags = [...tags, newTag];
+    setTags(newTags);
+  }
+
 
   
 
@@ -76,7 +85,9 @@ function App() {
           }
       }}/>
         {clicked && createPortal(      
-          <Middleware date={value} onClose={onClose} onButton={dispatch} className='z-20' plans={planList}></Middleware>, document.body)}
+          <Middleware date={value} onClose={onClose} onButton={dispatch} className='z-20' plans={planList}  tags={tags} onAddTag={addTagHandler}
+
+          ></Middleware>, document.body)}
     </>
   )
 }

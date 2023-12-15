@@ -8,8 +8,7 @@ const TimeForm = ({onChange, selectedTime}) => {
 
     const [time, setTime] = useState('01');
     const [minute, setMinute] = useState('00');
-    const [dayNight, setDayNight] = useState('AM');
-
+    const [dayNight, setDayNight] = useState('AM'); 
 
 
     useEffect(()=> {
@@ -20,10 +19,12 @@ const TimeForm = ({onChange, selectedTime}) => {
 
   return (
     <div>
-        <label className='block mb-2 text-xl text-[#FEFEDF]' htmlFor='title'>시간</label>
-        <SelectTime setTime={setTime} time = {selectedTime?.time}/>
-        <SelectMinute setMinute={setMinute} minute= {selectedTime?.minute}/>
-        <SelectDayNight setDayNight={setDayNight} dayNight={selectedTime?.dayNight}/>
+        <p className='inline-flex items-baseline mb-1 text-xl text-[#FEFEDF]' htmlFor='title'>시간</p>
+        <div className='mb-3'>
+            <SelectTime setTime={setTime} time = {selectedTime?.time}/>
+            <SelectMinute setMinute={setMinute} minute= {selectedTime?.minute}/>
+            <SelectDayNight setDayNight={setDayNight} dayNight={selectedTime?.dayNight}/>
+        </div>
     </div>
   )
 }

@@ -3,8 +3,8 @@ import React from 'react'
 const SelectTime = ({setTime, time}) => {
 
   return (
-    <div>
-        <select key={time} onChange={(e)=> setTime(e.target.value)} value={time}>
+    <div className='inline-flex items-baseline'>
+        <select key={time} onChange={(e)=> setTime(e.target.value)} value={time} className='text-black '>
             <option value='01'>01</option>
             <option value='02'>02</option>
             <option value='03'>03</option>
@@ -19,6 +19,7 @@ const SelectTime = ({setTime, time}) => {
             <option value='23'>12</option>  
             
             </select>
+            <p className='text-white mr-5'>시</p>
     </div>
   )
 }

@@ -3,15 +3,17 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // css import
 import './App.css'
 import Modal from './components/Modal'
+// import CreateDots from './components/createDots';
 import { createPortal } from 'react-dom';
 import moment from 'moment'
 
-let dummyData = [
+const dummyData = [
 	{
 		id: 1,
 		classification: '운동',
 		content: '등운동',
 		when: {
+			fullDate: '20231218',
 			year: '2023',
 			month: '12',
 			date: '18',
@@ -25,6 +27,7 @@ let dummyData = [
 		classification: '약속',
 		content: '진천이 형과 술약속',
 		when: {
+			fullDate: '20231214',
 			year: '2023',
 			month: '12',
 			date: '14',
@@ -38,6 +41,7 @@ let dummyData = [
 		classification: '공부',
 		content: 'react hooks 공부하기',
 		when: {
+			fullDate: '20231218',
 			year: '2023',
 			month: '12',
 			date: '18',
@@ -51,14 +55,14 @@ let dummyData = [
 export const CalendarContext = createContext();
 export const DispatchContext = createContext();
 
-const reducer = (schedule, action) => {
+const reducer = (schedules, action) => {
 	switch (action.type) {
 		case 'ADD':
-			return [...schedule, action];
+			return [...schedules, action];
 		case 'UPDATE':
-			return schedule.filter(schedule => schedule.id === action.id ? { ...action } : schedule);
+			return schedules.filter(schedule => schedule.id === action.id ? { ...action } : schedule);
 		case 'DELETE':
-			return schedule.filter(schedule => schedule.id !== action);
+			return schedules.filter(schedule => schedule.id !== action);
 	}
 }
 
@@ -66,7 +70,7 @@ function App() {
 	const [value, onChange] = useState(new Date());
 	const [clicked, click] = useState(false);
 
-	const [schedule, dispatch] = useReducer(reducer, dummyData);
+	const [schedules, dispatch] = useReducer(reducer, dummyData);
 
 	useEffect(() => {
 		if (value !== undefined) {
@@ -75,6 +79,7 @@ function App() {
 	}, [value]);
 
 	const getDate = {
+		fullDate: `${value.getFullYear()}${value.getMonth() + 1}${value.getDate()}`,
 		year: value.getFullYear(),
 		month: value.getMonth() + 1,
 		date: value.getDate()
@@ -85,13 +90,27 @@ function App() {
 	}
 
 	return (
-		<CalendarContext.Provider value={schedule}>
+		<CalendarContext.Provider value={schedules}>
 			<DispatchContext.Provider value={dispatch}>
 				<Calendar
 					onChange={onChange}
 					value={value}
 					formatDay={(locale, date) => moment(date).format("DD")}
 					navigationLabel={null}
+					// tileContent={({  }) => <CreateDots planList={schedule}/>}
+					tileContent={({ date }) => {
+						const clickedDate = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+						
+						if (schedules.find(schedule => schedule.when.fullDate === clickedDate)) {
+							return (
+								<>
+									<div className="flex justify-center items-center absoluteDiv">
+										<div className="dot" onClick={() => console.log('clicked')}></div>
+									</div>
+								</>
+							);
+						}
+					}}
 				/>
 				{clicked && createPortal(
 					<Modal onClose={onClose} date={getDate}></Modal>, document.body

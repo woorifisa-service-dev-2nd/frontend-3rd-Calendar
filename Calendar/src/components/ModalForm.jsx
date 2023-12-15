@@ -13,6 +13,7 @@ const ModalForm = ({ onClose, value, date, children }) => {
 			content: isNewForm(children) ? '' : value.content,
 			classification: isNewForm(children) ? '공부' : value.classification,
 			when: {
+				fullDate: isNewForm(children) ? `${date.year}${date.month}${date.date}` : `${value.when.year}${value.when.month}${value.when.date}`,
 				year: isNewForm(children) ? date.year : value.when.year,
 				month: isNewForm(children) ? date.month : value.when.month,
 				date: isNewForm(children) ? date.date : value.when.date,
@@ -42,6 +43,7 @@ const ModalForm = ({ onClose, value, date, children }) => {
 			onClose();
 		}
 	}
+
 	const removeSchedule = () => {
 		dispatch({
 			type: 'DELETE',

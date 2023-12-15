@@ -8,7 +8,7 @@ const Middleware = ({ onClose, onAddTag }) => {
 
 	return (
 		<div>
-			<Modal onClose={onClose} plan={filterSelected} onAddTag={onAddTag}></Modal>
+			<Modal onClose={onClose} plan={filterSelected} onAddTag={onAddTag} />
 		</div>
 	)
 }

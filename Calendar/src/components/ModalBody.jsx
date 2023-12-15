@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from './Modal'
 
-const Middleware = ({onClose, plans, onButton, date, tags, onAddTag}) => {
+const ModalBody = ({onClose, plans, onButton, date, tags, onAddTag}) => {
 
     const filterSelected = plans.data.find(plan => plan.date.getDate() === date.getDate());
     
@@ -13,4 +13,4 @@ const Middleware = ({onClose, plans, onButton, date, tags, onAddTag}) => {
   )
 }
 
-export default Middleware
+export default ModalBody

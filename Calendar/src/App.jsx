@@ -3,10 +3,9 @@ import { useState, useEffect, useReducer } from 'react'
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; // css import
 import './App.css'
-import Modal from './components/Modal'
 import { createPortal } from 'react-dom';
 import moment from 'moment'
-import Middleware from './components/Middleware';
+import ModalBody from './components/ModalBody';
 
 function App() {
   const [value, onChange] = useState();
@@ -79,7 +78,7 @@ function App() {
     <>
       <Calendar onChange={onChange} value={value} navigationLabel={null} formatDay={(locale, date) => moment(date).format("DD")}
       showNeighboringMonth={false} tileContent={( { date } ) => {
-        const arr = planList.data.filter(plan => plan.date.getDate() === date.getDate());
+        const arr = planList.data.filter(plan => plan.date.getDate() === date.getDate() && plan.date.getMonth() === date.getMonth());
         if(arr.length !== 0) {
           return (
             <>
@@ -91,9 +90,9 @@ function App() {
           }
       }}/>
         {clicked && createPortal(      
-          <Middleware date={value} onClose={onClose} onButton={dispatch} className='z-20' plans={planList}  tags={tags} onAddTag={addTagHandler}
+          <ModalBody date={value} onClose={onClose} onButton={dispatch} className='z-20' plans={planList}  tags={tags} onAddTag={addTagHandler}
 
-          ></Middleware>, document.body)}
+          ></ModalBody>, document.body)}
     </>
   )
 }

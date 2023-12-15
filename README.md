@@ -1,6 +1,6 @@
 # frontend-3rd-Calendar
 
-![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=3rd_Calendar%20&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=auto&height=300&section=header&text=Colorful_Calendar%20&fontSize=90)
 
 # 1️⃣ 주제 및 팀(팀원) 소개
 

@@ -7,6 +7,8 @@
 ## 주제 :clipboard:
 **달력에 매일매일 일정을 입력할 수 있는 서비스**
 
+![ezgif com-video-to-gif-converted](https://github.com/woorifisa-service-dev-2nd/frontend-3rd-ColorfulCalendar/assets/73164845/601d313d-bdc6-4377-ad06-36b827cea9e4)
+
 <br><br>
 
 ## 팀원

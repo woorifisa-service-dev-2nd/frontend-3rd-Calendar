@@ -20,6 +20,8 @@ module.exports = {
 		'no-unused-vars': 'off',
 		'react/jsx-no-target-blank': 'off',
 		'react/jsx-key': 'off',
-		'react/prop-types': 'off'
+		'react/prop-types': 'off',
+		'no-case-declarations': 'off',
+		'react-hooks/exhaustive-deps': 'off'
 	},
 }

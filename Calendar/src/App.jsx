@@ -4,73 +4,56 @@ import 'react-calendar/dist/Calendar.css'; // css import
 import './App.css'
 import Modal from './components/Modal'
 // import CreateDots from './components/createDots';
+
 import { createPortal } from 'react-dom';
 import moment from 'moment'
+import Middleware from './components/Middleware';
 
-const dummyData = [
-	{
-		id: 1,
-		classification: '운동',
-		content: '등운동',
-		when: {
-			fullDate: '20231218',
-			year: '2023',
-			month: '12',
-			date: '18',
-			hour: '06',
-			minute: '50',
-			ampm: 'PM'
-		}
-	},
-	{
-		id: 2,
-		classification: '약속',
-		content: '진천이 형과 술약속',
-		when: {
-			fullDate: '20231214',
-			year: '2023',
-			month: '12',
-			date: '14',
-			hour: '07',
-			minute: '30',
-			ampm: 'PM'
-		}
-	},
-	{
-		id: 3,
-		classification: '공부',
-		content: 'react hooks 공부하기',
-		when: {
-			fullDate: '20231218',
-			year: '2023',
-			month: '12',
-			date: '18',
-			hour: '11',
-			minute: '00',
-			ampm: 'AM'
-		},
-	}
-];
+const colors = [`#5A1B00`, `#006E60`, `#FFA600`];
+const defaultTagList = ['시험', '약속', '취미'];
 
-export const CalendarContext = createContext();
-export const DispatchContext = createContext();
 
-const reducer = (schedules, action) => {
+const reducer = (planList, action) => {
+	const {data} = planList;
+	//리듀서 작성
 	switch (action.type) {
-		case 'ADD':
-			return [...schedules, action];
-		case 'UPDATE':
-			return schedules.filter(schedule => schedule.id === action.id ? { ...action } : schedule);
-		case 'DELETE':
-			return schedules.filter(schedule => schedule.id !== action);
-	}
+		case 'ADD' :
+			const newPlan = {
+				content : action.payload.content,
+				tag : action.payload.tag,
+				date : action.payload.date,
+				time : action.payload.time
+			}
+			return { data : [...data, newPlan] } ;
+		case 'UPDATE' :
+			const updatedPlan = action.payload;
+			const updatedPlans = data.map(p => p.date.getDate() === updatedPlan.date.getDate() ?  updatedPlan : p );
+			return {data : updatedPlans};
+		case 'DELETE' :
+			const deletedPlans = data.filter(p => p.date.getDate() !== action.payload.date.getDate());
+			return {data : deletedPlans};
+	} 
 }
 
+
+export const MainContext = createContext();
+export const DispatchContext = createContext();
+
 function App() {
-	const [value, onChange] = useState(new Date());
+	const [value, onChange] = useState();
 	const [clicked, click] = useState(false);
 
-	const [schedules, dispatch] = useReducer(reducer, dummyData);
+
+	const [tags, setTags] = useState(defaultTagList);
+
+	const addTagHandler = (newTag) => {
+
+		const newTags = [...tags, newTag];
+		colors.push("#" + (parseInt(Math.random() * 0xffffff)).toString(16));
+		setTags(newTags);
+	}
+
+	const [planList, dispatch] = useReducer(reducer, { data: [] });
 
 	useEffect(() => {
 		if (value !== undefined) {
@@ -78,45 +61,42 @@ function App() {
 		}
 	}, [value]);
 
-	const getDate = {
-		fullDate: `${value.getFullYear()}${value.getMonth() + 1}${value.getDate()}`,
-		year: value.getFullYear(),
-		month: value.getMonth() + 1,
-		date: value.getDate()
-	}
-
 	const onClose = () => {
 		click(false);
 	}
+	const contextValues = {
+		value,
+		planList,
+		tags
+	}
+
+	const getRandomColor = (plan) => {
+		const tag = plan.tag;
+		const idx = tags.indexOf(tag);
+		return colors[idx];
+	}
+
 
 	return (
-		<CalendarContext.Provider value={schedules}>
+		<MainContext.Provider value={contextValues}>
 			<DispatchContext.Provider value={dispatch}>
-				<Calendar
-					onChange={onChange}
-					value={value}
-					formatDay={(locale, date) => moment(date).format("DD")}
-					navigationLabel={null}
-					// tileContent={({  }) => <CreateDots planList={schedule}/>}
-					tileContent={({ date }) => {
-						const clickedDate = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
-						
-						if (schedules.find(schedule => schedule.when.fullDate === clickedDate)) {
+				<Calendar onChange={onChange} value={value} navigationLabel={null} formatDay={(locale, date) => moment(date).format("DD")}
+					showNeighboringMonth={false} tileContent={({ date }) => {
+						const arr = planList.data.filter(plan => plan.date.getDate() === date.getDate() && plan.date.getMonth() === date.getMonth());
+						if (arr.length !== 0) {
 							return (
 								<>
 									<div className="flex justify-center items-center absoluteDiv">
-										<div className="dot" onClick={() => console.log('clicked')}></div>
+										<div className="dot" style={{ backgroundColor: getRandomColor(arr[0]) }}></div>
 									</div>
 								</>
 							);
 						}
-					}}
-				/>
+					}} />
 				{clicked && createPortal(
-					<Modal onClose={onClose} date={getDate}></Modal>, document.body
-				)}
+					<Middleware onClose={onClose} className='z-20' onAddTag={addTagHandler}></Middleware>, document.body)}
 			</DispatchContext.Provider>
-		</CalendarContext.Provider>
+		</MainContext.Provider>
 	);
 }
 

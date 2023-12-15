@@ -11,6 +11,7 @@ import Middleware from './components/Middleware';
 function App() {
   const [value, onChange] = useState();
   const [clicked, click] = useState(false);
+  const colors = [`#5A1B00`,`#006E60`, `#FFA600` ];
   
 
   const tagList = ['시험', '약속', '취미'];
@@ -32,14 +33,14 @@ function App() {
         return { data : [...data, newPlan] } ;
 
       case 'UPDATE' :
-        console.log('update reducer called');
+
         const updatedPlan = action.payload;
         const updatedPlans = data.map(p => p.date.getDate() === updatedPlan.date.getDate() ?  updatedPlan : p );
 
         return {data : updatedPlans};
 
       case 'DELETE' :
-        console.log('delete reducer called');
+
         const deletedPlans = data.filter(p => p.date.getDate() !== action.payload.date.getDate());
 
         return {data : deletedPlans};
@@ -47,13 +48,12 @@ function App() {
   }
 
   const addTagHandler = (newTag) => {
-    console.log('addTaghandler called');
+
     const newTags = [...tags, newTag];
+    colors.push("#"+(parseInt(Math.random()*0xffffff)).toString(16));
     setTags(newTags);
   }
 
-
-  
 
   const [planList, dispatch] = useReducer(onButton, {data: []});
   
@@ -67,18 +67,24 @@ function App() {
     }
   },[value]);
 
+  const getRandomColor = (plan) => {
+    const tag = plan.tag;
+    const idx = tags.indexOf(tag);
+    return colors[idx];
+  }
+
  
 
   return (
     <>
       <Calendar onChange={onChange} value={value} navigationLabel={null} formatDay={(locale, date) => moment(date).format("DD")}
       showNeighboringMonth={false} tileContent={( { date } ) => {
-        
-        if(planList.data.find(plan => plan.date.getDate() === date.getDate())) {
+        const arr = planList.data.filter(plan => plan.date.getDate() === date.getDate());
+        if(arr.length !== 0) {
           return (
             <>
               <div className="flex justify-center items-center absoluteDiv">
-                <div className="dot" onClick={()=> console.log('clicked')}></div>
+                <div className="dot" style={{backgroundColor : getRandomColor(arr[0])}}></div>
               </div>
             </>
           );

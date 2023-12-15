@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 
 const AddTag = ({tag, onChange, checked}) => {
 
-console.log(`${tag}의 check 값 : ${checked}`);
+
     return (
-        <>
-            <input className='text-[#FEFEDF]' type="radio" name="tag" value={tag} onChange={()=>onChange(tag)}
-            checked={checked}/>{tag}
-        </>
+        <span className='m-2'>
+            <input  type="radio" name="tag" value={tag} onChange={()=>onChange(tag)}
+            checked={checked}/>
+            <span className='text-[#FEFEDF]'>{tag}</span> 
+        </span>
     )
 }
 

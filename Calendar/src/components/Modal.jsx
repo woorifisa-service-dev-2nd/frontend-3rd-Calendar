@@ -72,7 +72,7 @@ const Modal = ({date, onClose, onButton, plan, onAddTag, tags}) => {
                     (<div>
                         {tags.map((t) => <AddTag key={key++} tag={t} onChange={setTag} checked={checked(t)}/>)}
                     
-                    <button type='button' onClick={changeRadio} className='text-[#FEFEDF]'>태그 생성</button>
+                    <button type='button' onClick={changeRadio} className='text-black bg-[#DFE0DF]'>태그 생성</button>
                     </div>)}
                     {radioVisible ==='false' && 
                     (<div>
@@ -85,15 +85,14 @@ const Modal = ({date, onClose, onButton, plan, onAddTag, tags}) => {
              <label className='block mb-2 text-xl text-[#FEFEDF]' htmlFor='content'>내용</label>
              <input className='w-full p-2 border-[1px] border-gray-300 bg-gray-200 text-black rounded' placeholder='내용을 입력하세요' defaultValue={plan?.content} id='content'  onChange={e=> setContent(e.target.value)}/>
 
-
             <TimeForm onChange={setTime} selectedTime={plan?.time}/>
 
-            <div className='inline-flex items-stretch'>
-                {plan !== undefined ? <button className='text-xl text-orange-600 bg-[#DFE0DF] self-stretch' type='button'
-                onClick={closeHandler}>삭제</button> : ''}
-                <div className='inline-flex  self-stretch'>
-                    <button className='text-xl text-orange-600 bg-[#DFE0DF]' type='button' onClick={onClose}>취소</button>
-                    <button className='text-xl text-lime-600 bg-[#DFE0DF]' type='button'
+            <div className='flex justify-between'>
+                {plan !== undefined ? <button className='text-l rounded-full text-orange-600 bg-[#DFE0DF]' type='button'
+                onClick={closeHandler}>삭제</button> : <div></div>}
+                <div className='flex justify-end'>
+                    <button className='rounded-full text-l text-orange-600 bg-[#DFE0DF]' type='button' onClick={onClose}>취소</button>
+                    <button className='rounded-full text-l text-lime-600 bg-[#DFE0DF]' type='button'
                     onClick={clickHandler}>등록</button>
                 </div>
              </div>

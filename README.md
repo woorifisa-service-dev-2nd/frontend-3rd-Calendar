@@ -17,8 +17,8 @@
 <br><br>
 
 # 2️⃣ 협업 방식
-`Git`&`Github` 사용
-`일정` 등록 관련 기능과 `태그` 등록 관련 기능을 분리하여 구현 진행
+- `Git`&`Github`& `Slack` 사용
+- `일정` 등록 관련 기능과 `태그` 등록 관련 기능을 분리하여 구현 진행
 
 <br><br>
 # 3️⃣ 활용 기술
@@ -151,6 +151,10 @@ const AddTag = ({tag, onChange, checked}) => {
 ## 💣 분류를 선택할 때 button태그를 사용하면 여러개를 중복하여 선택할 수 있는 이슈
 
 - 함수로 구현하여 설정할 수도 있지만, `input radio`를 사용할 시 간단하게 설정할 수 있어 `input radio`를 사용하여 작성
+
+## 💣 input radio에서 checked 프로퍼티 사용
+- `input radio`에서 선택한 값을 지정하기 위해 `checked`라는 프로퍼티를 사용했는데 처음에는 값을 `true`, `false`로 주면 동작할 것으로 예상
+- 그러나 `boolean`이 아니라 `string`값의 존재유무로 `checked`가 동작한다는 것을 알게됨.
 
 
 <br><br>

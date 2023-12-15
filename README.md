@@ -21,16 +21,33 @@ Git&Github 사용
 
 
 <br><br>
-# 3️⃣ 외부 라이브러리 사용
+# 3️⃣ 활용 기술
+1. 개발 환경
+   React
+  
+2. 사용 라이브러리
 react-calendar 라이브러리 사용
 
-선정 이유 : 캘린더에 일정을 추가하는 기능을 만드는 것이 목적이라서 가장 심플하다고 생각되는 react-calendar 라이브러리 사용
+   선정 이유 : 캘린더에 일정을 추가하는 기능을 만드는 것이 목적이라서 가장 심플하다고 생각되는 react-calendar 라이브러리 사용
 <br><br>
+
 
 # 4️⃣ 핵심 기능 설명 및 구현 방법
 ## 일정 등록/조회/수정/삭제 기능
+
+![image](https://github.com/woorifisa-service-dev-2nd/frontend-3rd-Calendar/assets/119735814/cf86c26e-bc66-4edf-a051-8dfabb9ab3f3)
+![image](https://github.com/woorifisa-service-dev-2nd/frontend-3rd-Calendar/assets/119735814/f8c34c10-88b3-4c08-a990-c54c5acc771f)
+
+useReducer를 사용하여 등록, 수정, 삭제 등의 기능을 구현
+
 ## 카테고리 별 분류 기능
 ## 사용자가 원하는 카테고리 생성 기능
+![image](https://github.com/woorifisa-service-dev-2nd/frontend-3rd-Calendar/assets/119735814/6cc9f18d-bbae-4262-ba89-461c046a3011)
+![image](https://github.com/woorifisa-service-dev-2nd/frontend-3rd-Calendar/assets/119735814/f43a8c64-703e-4aa4-bf68-9d2340846e81)
+![image](https://github.com/woorifisa-service-dev-2nd/frontend-3rd-Calendar/assets/119735814/91d45d99-5557-42c5-9286-36e81bf89b46)
+
+addTagHandler를 통해 새로운 태그를 생성하고, 생성된 모든 태그를 map을 사용해 보여줌
+
 <br><br>
 
 # 5️⃣ 트러블 슈팅

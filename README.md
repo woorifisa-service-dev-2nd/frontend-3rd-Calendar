@@ -25,7 +25,7 @@
 1. 개발 환경
 <br>
 
-`React`, 'javascript','tailwindCSS'
+`React`, `javascript`,`tailwindCSS`
   
 3. 사용 라이브러리
    <br>

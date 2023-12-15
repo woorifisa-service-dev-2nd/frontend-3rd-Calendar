@@ -23,15 +23,14 @@
 <br><br>
 # 3️⃣ 활용 기술
 1. 개발 환경
-<br>
-
+   
 `React`, `javascript`,`tailwindCSS`
   
-3. 사용 라이브러리
-   <br>
+2. 사용 라이브러리
+   
 `react-calendar` 라이브러리 사용
 
-   선정 이유 : 캘린더에 일정을 추가하는 기능을 만드는 것이 목적이라서 가장 심플하다고 생각되는 `react-calendar` 라이브러리 사용
+선정 이유 : 캘린더에 일정을 추가하는 기능을 만드는 것이 목적이라서 가장 심플하다고 생각되는 `react-calendar` 라이브러리 사용
 <br><br>
 
 
@@ -41,8 +40,8 @@
 
 ```javascript
 
-const [planList, dispatch] = useReducer(onButton, {data: []});
-
+const [planList, dispatch] = useReducer(onButton, {data: []}); 
+//리듀서를 사용하여 handler함수의 갯수를 줄임
 
 const onButton = (planList, action) => {
     const {data} = planList;
@@ -74,23 +73,24 @@ const onButton = (planList, action) => {
   }
 ```
 
-`useReducer`를 사용하여 등록, 수정, 삭제 등의 기능을 구현
 
 ## 카테고리 별 도트 색상 기능
 ```javascript
  const colors = [`#5A1B00`,`#006E60`, `#FFA600` ];
+//더미데이터의 양만큼 color도 존재
 
 return (
     <>
+      //캘린더를 렌더링하는 부분
       <Calendar onChange={onChange} value={value} navigationLabel={null} formatDay={(locale, date) => moment(date).format("DD")}
       showNeighboringMonth={false} tileContent={( { date } ) => {
         const arr = planList.data.filter(plan => plan.date.getDate() === date.getDate());
          //오늘 날짜의 plan을 꺼냄
-        if(arr.length !== 0) { //오늘날짜의 plan이 있으면
+        if(arr.length !== 0) { //오늘날짜의 plan이 있는 곳에만 도트를 생성
           return (
             <>
               <div className="flex justify-center items-center absoluteDiv">
-                <div className="dot" style={{backgroundColor : getRandomColor(arr[0])}}></div>
+                <div className="dot" style={{backgroundColor : getRandomColor(arr[0])}}></div> //getRandomColor함수를 호출
               </div>
             </>
           );
@@ -100,28 +100,30 @@ return (
 
 ```javascript
 const getRandomColor = (plan) => {
+    //태그 인덱스와 일치하는 인덱스의 컬러를 꺼냄
     const tag = plan.tag;
     const idx = tags.indexOf(tag);
     return colors[idx];
   }
 ```
+
 ## 사용자가 원하는 카테고리 생성 기능
 ```javascript
  const addTagHandler = (newTag) => {
 
     const newTags = [...tags, newTag];
-    colors.push("#"+(parseInt(Math.random()*0xffffff)).toString(16));
-    setTags(newTags);
+    colors.push("#"+(parseInt(Math.random()*0xffffff)).toString(16)); //컬러를 담는 배열에도 랜덤색상을 추가
+    setTags(newTags); //새 태그 생성
   }
 ```
 
 ```javscript
 {tags.map((t) => <AddTag key={key++} tag={t} onChange={setTag} checked={checked(t)}/>)}
+//setTag가 addTagHandler
 ```
+
 ```javascript
 const AddTag = ({tag, onChange, checked}) => {
-
-
     return (
         <span className='m-2'>
             <input  type="radio" name="tag" value={tag} onChange={()=>onChange(tag)}
